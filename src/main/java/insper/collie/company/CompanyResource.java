@@ -1,5 +1,8 @@
 package insper.collie.company;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +33,49 @@ public class CompanyResource implements CompanyController{
             .body(CompanyParser.to(company));
     }
 
+    @Override
+    public ResponseEntity<CompanyInfo> getCompany(String id){
+
+        Company company = companyService.getCompany(id);
+        if (company == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(CompanyParser.to(company));
+    }
+
+    @Override
+    public ResponseEntity<List<CompanyInfo>> getAllCompanies(){
+
+        List<Company> companies = companyService.getAllCompanies();
+        if (companies.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(
+            companies.stream()
+                .map(CompanyParser::to)
+                .collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public ResponseEntity<CompanyInfo> updateCompany(String id, CompanyInfo in){
+
+        Company company = CompanyParser.to(in);
+        company = companyService.update(id, company);
+        if (company == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(CompanyParser.to(company));
+    }
+
+    @Override
+    public ResponseEntity<CompanyInfo> deleteCompany(String id){
+
+        String r = companyService.delete(id);
+        if (r == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
     
 }

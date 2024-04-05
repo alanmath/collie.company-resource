@@ -13,6 +13,7 @@ public class CompanyParser {
         return CompanyInfo.builder()
             .name(company.name())
             .description(company.description())
+            .id(company.id())
             .build();
     }
 }

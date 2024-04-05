@@ -19,7 +19,8 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "company")
 @EqualsAndHashCode(of = "id")
-@Builder @Getter @Setter @Accessors(chain = true, fluent = true)
+@Builder @Getter  @Accessors(chain = true, fluent = true)
+@Setter
 @NoArgsConstructor @AllArgsConstructor
 public class CompanyModel {
     
