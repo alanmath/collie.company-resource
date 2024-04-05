@@ -27,6 +27,15 @@ public class CompanyService {
     }
 
     @Transactional(readOnly = true)
+    public Boolean isCompany(String id) {
+        Optional<CompanyModel> company = companyRepository.findById(id);
+        if (company.isPresent()){
+            return true;
+        }
+        return false; 
+    }
+
+    @Transactional(readOnly = true)
     public List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<Company>();
 

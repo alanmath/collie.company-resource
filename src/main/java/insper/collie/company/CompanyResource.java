@@ -44,6 +44,14 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
+    public ResponseEntity<Boolean> isCompany(String id){
+
+        Boolean isCompany = companyService.isCompany(id);
+
+        return ResponseEntity.ok(isCompany);
+    }
+
+    @Override
     public ResponseEntity<List<CompanyInfo>> getAllCompanies(){
 
         List<Company> companies = companyService.getAllCompanies();
