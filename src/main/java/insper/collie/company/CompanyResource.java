@@ -27,7 +27,6 @@ public class CompanyResource implements CompanyController{
     private CompanyService companyService;
 
     @Override
-    @PostMapping("/companies")
     @Operation(summary = "Criar uma nova Empresa", description = "Cria uma nova empresa e retorna o objeto criado com seu ID.",
         responses = {
             @ApiResponse(responseCode = "201", description = "Empresa criada com sucesso", content = @Content(schema = @Schema(implementation = CompanyInfo.class))),
@@ -50,7 +49,6 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
-    @GetMapping("/companies/{id}")
     @Operation(summary = "Obter Empresa pelo ID", description = "Obtém as informações de uma empresa específica pelo seu ID.",
         responses = {
             @ApiResponse(responseCode = "200", description = "Empresa encontrada", content = @Content(schema = @Schema(implementation = CompanyInfo.class))),
@@ -66,7 +64,6 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
-    @GetMapping("/companies/{id}/exists")
     @Operation(summary = "Verificar se a Empresa existe", description = "Verifica se uma empresa específica existe pelo seu ID.",
         responses = {
             @ApiResponse(responseCode = "200", description = "True se a empresa existe, False caso contrário")
@@ -79,7 +76,6 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
-    @GetMapping("/companies")
     @Operation(summary = "Listar todas as Empresas", description = "Lista todas as empresas cadastradas.",
         responses = {
             @ApiResponse(responseCode = "200", description = "Lista de empresas encontrada", content = @Content(schema = @Schema(implementation = CompanyInfo[].class))),
@@ -99,7 +95,6 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
-    @PutMapping("/companies/{id}")
     @Operation(summary = "Atualizar uma Empresa", description = "Atualiza as informações de uma empresa específica.",
         responses = {
             @ApiResponse(responseCode = "200", description = "Empresa atualizada com sucesso", content = @Content(schema = @Schema(implementation = CompanyInfo.class))),
@@ -117,7 +112,6 @@ public class CompanyResource implements CompanyController{
     }
 
     @Override
-    @DeleteMapping("/companies/{id}")
     @Operation(summary = "Deletar uma Empresa", description = "Deleta uma empresa específica pelo seu ID.",
         responses = {
             @ApiResponse(responseCode = "200", description = "Empresa deletada com sucesso"),
