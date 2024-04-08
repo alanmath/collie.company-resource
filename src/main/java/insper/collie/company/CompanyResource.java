@@ -57,9 +57,6 @@ public class CompanyResource implements CompanyController{
     public ResponseEntity<CompanyInfo> getCompany(String id){
 
         Company company = companyService.getCompany(id);
-        if (company == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(CompanyParser.to(company));
     }
 
@@ -78,15 +75,11 @@ public class CompanyResource implements CompanyController{
     @Override
     @Operation(summary = "Listar todas as Empresas", description = "Lista todas as empresas cadastradas.",
         responses = {
-            @ApiResponse(responseCode = "200", description = "Lista de empresas encontrada", content = @Content(schema = @Schema(implementation = CompanyInfo[].class))),
-            @ApiResponse(responseCode = "404", description = "Nenhuma empresa encontrada")
+            @ApiResponse(responseCode = "200", description = "Lista de empresas encontrada", content = @Content(schema = @Schema(implementation = CompanyInfo[].class)))
         })
     public ResponseEntity<List<CompanyInfo>> getAllCompanies(){
 
         List<Company> companies = companyService.getAllCompanies();
-        if (companies.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(
             companies.stream()
                 .map(CompanyParser::to)
@@ -105,9 +98,6 @@ public class CompanyResource implements CompanyController{
 
         Company company = CompanyParser.to(in);
         company = companyService.update(id, company);
-        if (company == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(CompanyParser.to(company));
     }
 
@@ -118,11 +108,7 @@ public class CompanyResource implements CompanyController{
             @ApiResponse(responseCode = "404", description = "Empresa não encontrada")
         })
     public ResponseEntity<CompanyInfo> deleteCompany(String id){
-
-        String r = companyService.delete(id);
-        if (r == null) {
-            return ResponseEntity.notFound().build();
-        }
+        companyService.delete(id);
         return ResponseEntity.ok().build();
     }
     

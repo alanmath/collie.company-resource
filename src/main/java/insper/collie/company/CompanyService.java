@@ -72,11 +72,10 @@ public class CompanyService {
     }
 
     @Transactional
-    public String delete(String id) {
+    public void delete(String id) {
         CompanyModel c = companyRepository.findById(id).orElse(null);
         if (c == null) throw new CompanyNotFoundException(id);
         companyRepository.deleteById(id);
-        return "ok";
     }
 
 }
