@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import insper.collie.company.exceptions.CompanyNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +25,12 @@ public class CompanyService {
 
     @Transactional(readOnly = true)
     public Company getCompany(String id) {
-        return companyRepository.findById(id).map(CompanyModel::to).orElse(null);
+        Optional<CompanyModel> company = companyRepository.findById(id);
+        if (company.isPresent()){
+            return company.get().to();
+        }
+        throw new CompanyNotFoundException(id);
+
     }
 
     @Transactional(readOnly = true)
@@ -49,9 +56,8 @@ public class CompanyService {
     @Transactional
     public Company update(String id, Company in) {
         CompanyModel c = companyRepository.findById(id).orElse(null);
-        if (c == null){
-            return null;
-        }
+        if (c == null) throw new CompanyNotFoundException(id);
+
 
         CompanyModel company = c;
 
@@ -68,9 +74,7 @@ public class CompanyService {
     @Transactional
     public String delete(String id) {
         CompanyModel c = companyRepository.findById(id).orElse(null);
-        if (c == null){
-            return null;
-        }
+        if (c == null) throw new CompanyNotFoundException(id);
         companyRepository.deleteById(id);
         return "ok";
     }
