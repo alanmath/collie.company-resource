@@ -35,11 +35,7 @@ public class CompanyService {
 
     @Transactional(readOnly = true)
     public Boolean isCompany(String id) {
-        Optional<CompanyModel> company = companyRepository.findById(id);
-        if (company.isPresent()){
-            return true;
-        }
-        return false; 
+        return companyRepository.existsById(id);
     }
 
     @Transactional(readOnly = true)
@@ -73,9 +69,8 @@ public class CompanyService {
 
     @Transactional
     public void delete(String id) {
-        CompanyModel c = companyRepository.findById(id).orElse(null);
-        if (c == null) throw new CompanyNotFoundException(id);
-        companyRepository.deleteById(id);
+        if (companyRepository.existsById(id)) companyRepository.deleteById(id);
+        throw new CompanyNotFoundException(id);
     }
 
 }
