@@ -2,6 +2,9 @@ package insper.collie.company;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +21,14 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @CachePut(value="companies", key = "#result.id()")
     @Transactional
     public Company create(Company in) {
         return companyRepository.save(new CompanyModel(in)).to();
     }
 
+    
+    @Cacheable(value="companies", key="#id")
     @Transactional(readOnly = true)
     public Company getCompany(String id) {
         Optional<CompanyModel> company = companyRepository.findById(id);
@@ -49,6 +55,7 @@ public class CompanyService {
         return companies;
     }
 
+    @CachePut(value="companies", key = "#id", unless = "#result == null")
     @Transactional
     public Company update(String id, Company in) {
         CompanyModel c = companyRepository.findById(id).orElse(null);
@@ -67,10 +74,11 @@ public class CompanyService {
         return companyRepository.save(company).to();
     }
 
+    @CacheEvict(value="companies", key="#id", condition="#result != null")
     @Transactional
     public void delete(String id) {
         if (companyRepository.existsById(id)) companyRepository.deleteById(id);
-        throw new CompanyNotFoundException(id);
+        else throw new CompanyNotFoundException(id);
     }
 
 }

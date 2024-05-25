@@ -1,5 +1,6 @@
 package insper.collie.company;
 
+import java.io.Serializable;
 import java.lang.annotation.Inherited;
 
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ import lombok.experimental.Accessors;
 @Builder @Getter  @Accessors(chain = true, fluent = true)
 @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class CompanyModel {
+public class CompanyModel implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
