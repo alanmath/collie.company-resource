@@ -9,6 +9,11 @@ pipeline {
                 echo 'Company resource'
             }
         }
+        stage ('Build redis'){
+            steps {
+                build job: 'redis', wait: true
+            }
+        }
         stage ('Build interface'){
             steps {
                 build job: 'company', wait: true
